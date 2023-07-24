@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import PromptCard from "./PromptCard";
@@ -19,12 +19,11 @@ const PromptCardList = ({ data, handleTagClick }) => {
   );
 };
 
-const Feed = () => {
+const Feed = ({ posts = [] }) => {
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
-  const [posts, setPosts] = useState([]);
 
   const handleSearchChange = async (e) => {
     setSearchText(e.target.value);
@@ -46,15 +45,6 @@ const Feed = () => {
     });
     setResults(filteredPosts);
   }, [searchText]);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-      setPosts(data);
-    };
-    fetchPosts();
-  }, []);
 
   const handleTagClick = (tag) => {
     router.push(`?tag=${tag}`);
