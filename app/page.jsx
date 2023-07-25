@@ -20,7 +20,9 @@ const Home = async () => {
 };
 
 const getPosts = async () => {
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/prompt`);
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/prompt`, {
+    cache: "no-store",
+  });
   const posts = await response.json();
   return posts;
 };
